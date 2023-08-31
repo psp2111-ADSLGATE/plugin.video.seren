@@ -331,13 +331,13 @@ class SmartPlay:
             return
 
         action_args = [
-            g.legacy_action_args_converter(g.legacy_params_converter(dict(parse.parse_qsl(i.split("?")[-1]))))[
+            g.legacy_action_args_converter(g.legacy_params_converter(dict(parse.parse_qsl(i.split("?")[-1])))).get(
                 "action_args"
-            ]
+            )
             for i in playlist_uris
         ]
 
-        show_ids = {tools.deconstruct_action_args(i).get('trakt_show_id') for i in action_args}
+        show_ids = {tools.deconstruct_action_args(i).get('trakt_show_id') for i in action_args if i}
 
         if len(show_ids) > 1:
             g.log("Cleaning up items from other shows", "debug")
